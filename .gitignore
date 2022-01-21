@@ -1,0 +1,10 @@
+.metadata/
+
+*/.settings/
+
+*/bin/
+
+*/.classpath
+*/.project
+
+*/*.jar

@@ -1,0 +1,15 @@
+name: PronounMC
+main: io.github.acekiron.pronounmc.PMCPlugin
+version: 0.3
+api-version: 1.17
+description: See someone's pronouns
+commands:
+  setpronouns:
+    description: Set your own pronouns
+  getpronouns:
+    description: See someone's pronouns
+permissions:
+  pronounmc.set:
+    description: Set pronouns
+  pronounmc.get:
+    description: Get pronouns
