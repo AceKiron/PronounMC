@@ -1,7 +1,7 @@
 name: PronounMC
 main: io.github.acekiron.pronounmc.PMCPlugin
 version: 0.3
-api-version: 1.17
+api-version: 1.18
 description: See someone's pronouns
 commands:
   setpronouns:
