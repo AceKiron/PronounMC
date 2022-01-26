@@ -25,4 +25,5 @@ PronounMC is a Minecraft plugin designed to make it easier to keep track of pron
 
 ## Downloads
 ### PronounMC 0.3
+* [1.18.1](https://github.com/AceKiron/pronounmc/releases/download/spigot-1.18.1/pronounmc-0.3.jar)
 * [1.17.1](https://github.com/AceKiron/pronounmc/releases/download/spigot-1.17.1/pronounmc-0.3.jar)
