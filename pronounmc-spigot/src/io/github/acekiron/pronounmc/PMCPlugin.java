@@ -22,7 +22,8 @@ public class PMCPlugin extends JavaPlugin {
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         
-        Bukkit.getPluginCommand("setpronouns").setTabCompleter(new PronounsTabCompleter());
+        Bukkit.getPluginCommand("addpronouns").setTabCompleter(new PronounsTabCompleter());
+        Bukkit.getPluginCommand("removepronouns").setTabCompleter(new PronounsTabCompleter());
     }
     
     @Override
@@ -32,12 +33,32 @@ public class PMCPlugin extends JavaPlugin {
         }
     	
     	if (command.getName().equalsIgnoreCase("getpronouns")) {
+    		if (!sender.hasPermission("pronounmc.get")) {
+        		sender.sendMessage(formatMessage("Missing the pronounmc.get permission.", true));
+        		return true;
+        	}
+    		
     		commandGetPronouns((Player) sender, args);
     		return true;
     	}
     	
-    	if (command.getName().equalsIgnoreCase("setpronouns")) {
-    		commandSetPronouns((Player) sender, args);
+    	if (command.getName().equalsIgnoreCase("addpronouns")) {
+    		if (!sender.hasPermission("pronounmc.modify")) {
+        		sender.sendMessage(formatMessage("Missing the pronounmc.modify permission.", true));
+        		return true;
+        	}
+    		
+    		commandAddPronouns((Player) sender, args);
+    		return true;
+    	}
+    	
+    	if (command.getName().equalsIgnoreCase("removepronouns")) {
+    		if (!sender.hasPermission("pronounmc.modify")) {
+        		sender.sendMessage(formatMessage("Missing the pronounmc.modify permission.", true));
+        		return true;
+        	}
+    		
+    		commandRemovePronouns((Player) sender, args);
     		return true;
     	}
     	
@@ -45,42 +66,107 @@ public class PMCPlugin extends JavaPlugin {
     }
     
     private void commandGetPronouns(Player sender, String[] args) {
-    	if (!sender.hasPermission("pronounmc.get")) {
-    		sender.sendMessage(formatMessage("Missing the pronounmc.get permission.", true));
+    	if (args.length == 0) { // Get your own pronouns
+    		sender.sendMessage(formatMessage(PMCAPI.getPronouns(sender.getUniqueId()) + ".", false));
     		return;
     	}
     	
-    	if (args.length == 0) {
-    		sender.sendMessage(formatMessage(PMCAPI.getString(PMCAPI.getPronouns(sender.getUniqueId())), false));
-    		return;
-    	}
-    	
-    	Player player = Bukkit.getPlayer(args[0]);
+    	Player player = Bukkit.getPlayer(args[0]); // Get someone else's pronouns
     	
     	if (player == null) {
     		sender.sendMessage(formatMessage("Could not find " + args[0] + ".", true));
     		return;
     	}
     	
-    	sender.sendMessage(formatMessage(PMCAPI.getString(PMCAPI.getPronouns(player.getUniqueId())), false));
+    	sender.sendMessage(formatMessage(PMCAPI.getPronouns(player.getUniqueId()) + ".", false));
     }
     
-    private void commandSetPronouns(Player sender, String[] args) {
-    	if (!sender.hasPermission("pronounmc.set")) {
-    		sender.sendMessage(formatMessage("Missing the pronounmc.set permission.", true));
-    		return;
-    	}
-    	
-    	if (args.length == 0) {
-    		sender.sendMessage(formatMessage("Missing a set of pronouns", true));
-    		return;
-    	}
-    	
-    	if (PMCAPI.setPronouns(sender.getUniqueId(), args[0])) {
-    		sender.sendMessage(formatMessage("Success setting pronouns to " + args[0] + ".", false));
-    	} else {
-    		sender.sendMessage(formatMessage("Could not set pronouns.", true));
-    	}
+    private void commandAddPronouns(Player sender, String[] args) {
+        switch (args.length) {
+        	case 0:
+        		sender.sendMessage(formatMessage("Missing a set of pronouns.", true));
+        		return;
+        	
+        	case 1:
+        		// Modify own pronouns
+        		if (PMCAPI.addPronouns(sender.getUniqueId(), args[0])) {
+        			sender.sendMessage(formatMessage("Updated pronouns.", false));
+        			return;
+        		}
+        		
+        		sender.sendMessage(formatMessage("Could not update pronouns.", true));
+    			return;
+        	
+        	case 2:
+        		// Modify someone else's pronouns
+        		if (!sender.hasPermission("pronounmc.modify.other")) {
+            		sender.sendMessage(formatMessage("Missing the pronounmc.modify.other permission.", true));
+            		return;
+            	}
+        		
+        		Player player = Bukkit.getPlayer(args[1]);
+            	
+            	if (player == null) {
+            		sender.sendMessage(formatMessage("Could not find " + args[0] + ".", true));
+            		return;
+            	}
+            	
+            	if (PMCAPI.addPronouns(player.getUniqueId(), args[0])) {
+        			sender.sendMessage(formatMessage("Updated pronouns.", false));
+        			return;
+        		}
+        		
+        		sender.sendMessage(formatMessage("Could not update pronouns.", true));
+    			return;
+        	
+        	default:
+        		sender.sendMessage(formatMessage("Too many arguments.", true));
+        		return;
+        }
+    }
+    
+    private void commandRemovePronouns(Player sender, String[] args) {
+    	switch (args.length) {
+	    	case 0:
+	    		sender.sendMessage(formatMessage("Missing a set of pronouns.", true));
+	    		return;
+	    	
+	    	case 1:
+	    		// Modify own pronouns
+	    		if (PMCAPI.removePronouns(sender.getUniqueId(), args[0])) {
+        			sender.sendMessage(formatMessage("Updated pronouns.", false));
+        			return;
+        		}
+        		
+        		sender.sendMessage(formatMessage("Could not update pronouns.", true));
+    			return;
+	    	
+	    	case 2:
+	    		// Modify someone else's pronouns
+	    		if (!sender.hasPermission("pronounmc.modify.other")) {
+	        		sender.sendMessage(formatMessage("Missing the pronounmc.modify.other permission.", true));
+	        		return;
+	        	}
+
+	    		Player player = Bukkit.getPlayer(args[1]);
+            	
+            	if (player == null) {
+            		sender.sendMessage(formatMessage("Could not find " + args[0] + ".", true));
+            		return;
+            	}
+            	
+            	if (PMCAPI.addPronouns(player.getUniqueId(), args[0])) {
+        			sender.sendMessage(formatMessage("Updated pronouns.", false));
+        			return;
+        		}
+        		
+        		sender.sendMessage(formatMessage("Could not update pronouns.", true));
+    			return;
+	    	
+	    	default:
+	    		sender.sendMessage(formatMessage("Too many arguments.", true));
+	    		return;
+	    }
     }
     
 }
