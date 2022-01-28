@@ -2,28 +2,20 @@
 PronounMC is a Minecraft plugin designed to make it easier to keep track of pronouns.
 
 ## Supported pronouns
-* Unspecified
+* He
+* She
+* They
+* It
 * Any
 * Other
 * Ask
-* Avoid
-* He/him
-* He/she
-* He/they
-* It/him
-* It/its
-* It/she
-* It/they
-* She/he
-* She/her
-* She/it
-* She/they
-* They/he
-* They/it
-* They/she
-* They/them
+* Username
+
+## Permissions
+* `pronounmc.modify`: Set your own pronouns
+* `pronounmc.modify.other`: Set someone else's pronouns
+* `pronounmc.get`: Get pronouns
 
 ## Downloads
-### PronounMC 0.3
-* [1.18.1](https://github.com/AceKiron/pronounmc/releases/download/spigot-1.18.1/pronounmc-0.3.jar)
-* [1.17.1](https://github.com/AceKiron/pronounmc/releases/download/spigot-1.17.1/pronounmc-0.3.jar)
+* [1.18.1 (0.4)](https://github.com/AceKiron/pronounmc/releases/download/spigot-1.18.1/pronounmc-0.4.jar)
+* [1.17.1 (0.3)](https://github.com/AceKiron/pronounmc/releases/download/spigot-1.17.1/pronounmc-0.3.jar)
