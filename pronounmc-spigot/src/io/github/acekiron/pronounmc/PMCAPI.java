@@ -32,7 +32,7 @@ public class PMCAPI {
     	List<String> list = fetchPronouns(uuid);
     	
     	if (list.size() == 0)
-    		return "Unspeficied";
+    		return "Unspecified";
     	
     	String string = String.join("/", pronouns);
     	return string.substring(0, 1).toUpperCase() + string.substring(1);

@@ -12,7 +12,7 @@ commands:
    removepronouns:
       description: Remove pronouns
    getpronouns:
-      description: Get pronounss
+      description: Get pronouns
 
 permissions:
    pronounmc.modify:
