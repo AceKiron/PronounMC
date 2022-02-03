@@ -1,6 +1,6 @@
 name: PronounMC
 description: See someone's pronouns
-version: 0.4
+version: 0.5
 author: AceKiron
 
 main: io.github.acekiron.pronounmc.PMCPlugin

@@ -1,27 +1,48 @@
 package io.github.acekiron.pronounmc;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PMCAPI {
 
     private static HashMap<UUID, List<String>> cache = new HashMap<UUID, List<String>>();
 
-    private static List<String> pronouns = new ArrayList<String>(Arrays.asList(new String[] {
-        "he", "she", "they", "it",
-        "any", "other", "ask", "username"
-    }));
-
-    private static JavaPlugin plugin;
+    private static File playerPronounsFile;
+    private static YamlConfiguration playerPronounsConfig;
+    
+    private static List<String> pronouns;
+    
+//    private static List<String> pronouns = new ArrayList<String>(Arrays.asList(new String[] {
+//        "he", "she", "they", "it",
+//        "any", "other", "ask", "username"
+//    }));
     
     public static void InitPMCAPI(JavaPlugin plugin) {
-        PMCAPI.plugin = plugin;
         System.out.println("Initialized PronounMC API.");
+        
+        pronouns = plugin.getConfig().getStringList("available-pronouns");
+        
+        // Use a separate file for storing players' pronouns
+        playerPronounsFile = new File(plugin.getDataFolder(), "pronouns-db.yml");
+        if (!playerPronounsFile.exists()) {
+        	playerPronounsFile.getParentFile().mkdirs();
+			plugin.saveResource("pronouns-db.yml", false);
+        }
+        
+        playerPronounsConfig = new YamlConfiguration();
+        try {
+        	playerPronounsConfig.load(playerPronounsFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
     }
     
     public static List<String> getAllCodes() {
@@ -34,7 +55,7 @@ public class PMCAPI {
         if (list.size() == 0)
             return "Unspecified";
         
-        String string = String.join("/", pronouns);
+        String string = String.join("/", list);
         return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
     
@@ -44,8 +65,7 @@ public class PMCAPI {
         }
         
         // Load from config
-        @SuppressWarnings("unchecked")
-        List<String> code = (List<String>) plugin.getConfig().getList("pronouns-" + uuid);
+        List<String> code = playerPronounsConfig.getStringList("pronouns-" + uuid);
         
         if (code == null) {
             code = new ArrayList<String>();
@@ -56,7 +76,7 @@ public class PMCAPI {
     }
     
     public static boolean addPronouns(UUID uuid, String code) {
-        if (pronouns.contains(code)) {
+    	if (pronouns.contains(code)) {
             List<String> pronouns = fetchPronouns(uuid);
             
             if (!pronouns.contains(code)) {
@@ -64,8 +84,13 @@ public class PMCAPI {
                 cache.put(uuid, pronouns);
                 
                 // Save to config
-                plugin.getConfig().set("pronouns-" + uuid, pronouns);
-                plugin.saveConfig();
+                playerPronounsConfig.set("pronouns-" + uuid, pronouns);
+
+                try {
+					playerPronounsConfig.save(playerPronounsFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
             }
             
             return true;
@@ -81,8 +106,13 @@ public class PMCAPI {
             cache.put(uuid, pronouns);
             
             // Save to config
-            plugin.getConfig().set("pronouns-" + uuid, pronouns);
-            plugin.saveConfig();
+            playerPronounsConfig.set("pronouns-" + uuid, pronouns);
+
+            try {
+				playerPronounsConfig.save(playerPronounsFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
             
             return true;
         }
