@@ -67,7 +67,7 @@ public final class PMCPlugin extends JavaPlugin {
 
     private void commandGetPronouns(Player sender, String[] args) {
         if (args.length == 0) { // Get your own pronouns
-            sender.sendMessage(formatMessage(PMCAPI.getPronouns(sender.getUniqueId()) + ".", false));
+            sender.sendMessage(formatMessage(PMCAPI.getPronouns(sender.getUniqueId(), true) + ".", false));
             return;
         }
 
@@ -78,7 +78,7 @@ public final class PMCPlugin extends JavaPlugin {
             return;
         }
 
-        sender.sendMessage(formatMessage(PMCAPI.getPronouns(player.getUniqueId()) + ".", false));
+        sender.sendMessage(formatMessage(PMCAPI.getPronouns(player.getUniqueId(), true) + ".", false));
     }
 
     private void commandAddPronouns(Player sender, String[] args) {

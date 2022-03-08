@@ -20,11 +20,6 @@ public class PMCAPI {
 
     private static List<String> pronouns;
 
-//    private static List<String> pronouns = new ArrayList<String>(Arrays.asList(new String[] {
-//        "he", "she", "they", "it",
-//        "any", "other", "ask", "username"
-//    }));
-
     public static void InitPMCAPI(JavaPlugin plugin) {
         System.out.println("Initialized PronounMC API.");
 
@@ -49,14 +44,18 @@ public class PMCAPI {
         return pronouns;
     }
 
-    public static String getPronouns(UUID uuid) {
+    public static String getPronouns(UUID uuid, boolean capitalizeFirstLetter) {
         List<String> list = fetchPronouns(uuid);
 
         if (list.size() == 0)
             return "Unspecified";
 
         String string = String.join("/", list);
-        return string.substring(0, 1).toUpperCase() + string.substring(1);
+
+        if (capitalizeFirstLetter)
+            return string.substring(0, 1).toUpperCase() + string.substring(1);
+        else
+            return string;
     }
 
     private static List<String> fetchPronouns(UUID uuid) {
