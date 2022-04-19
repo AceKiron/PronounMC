@@ -25,7 +25,12 @@ public final class PMCPlugin extends JavaPlugin {
         Bukkit.getPluginCommand("addpronouns").setTabCompleter(new PronounsTabCompleter());
         Bukkit.getPluginCommand("removepronouns").setTabCompleter(new PronounsTabCompleter());
 
-        new PHExtension().register();
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            System.out.println("Hooking into PlaceholderAPI");
+            new PHExtension().register();
+        } else {
+            System.out.println("Could not hook into PlaceholderAPI as it was not found.");
+        }
     }
 
     @Override
