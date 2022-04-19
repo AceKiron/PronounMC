@@ -24,6 +24,8 @@ public final class PMCPlugin extends JavaPlugin {
 
         Bukkit.getPluginCommand("addpronouns").setTabCompleter(new PronounsTabCompleter());
         Bukkit.getPluginCommand("removepronouns").setTabCompleter(new PronounsTabCompleter());
+
+        new PHExtension().register();
     }
 
     @Override

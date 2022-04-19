@@ -6,6 +6,8 @@ authors: [ AceKiron, Purrrpley ]
 description: See someone's pronouns
 website: https://github.com/AceKiron/pronounmc
 
+softdepend: [PlacholderAPI]
+
 commands:
   addpronouns:
     description: Add pronouns
