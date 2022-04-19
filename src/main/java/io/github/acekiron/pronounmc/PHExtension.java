@@ -1,5 +1,6 @@
 package io.github.acekiron.pronounmc;
 
+import org.bukkit.entity.Player;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class PHExtension extends PlaceholderExpansion {
@@ -20,7 +21,7 @@ public class PHExtension extends PlaceholderExpansion {
     public boolean persist() { return true; }
 
     @Override
-    public String onPlayerholderRequest(Player player, String params) {
+    public String onPlaceholderRequest(Player player, String params) {
         if (player == null) return "";
 
         return PMCAPI.getPronouns(player.getUniqueId(), true);
