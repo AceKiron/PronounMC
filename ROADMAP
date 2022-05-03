@@ -1,0 +1,13 @@
+{
+    "features": [
+        {
+            "name": "Refactor code",
+            "version": "1.0",
+            "status": "indev"
+        },
+        {
+            "name": "Integrate pronoundb.org",
+            "status": "pending"
+        }
+    ]
+}
