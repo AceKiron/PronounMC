@@ -8,6 +8,10 @@
         {
             "name": "Integrate pronoundb.org",
             "status": "pending"
+        },
+        {
+            "name": "Rewrite README",
+            "status": "pending"
         }
     ]
 }
