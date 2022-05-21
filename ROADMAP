@@ -1,16 +1,15 @@
 {
     "features": [
         {
-            "name": "Refactor code",
-            "version": "1.0",
-            "status": "indev"
+            "name": "Rewrite README",
+            "status": "released"
         },
         {
-            "name": "Integrate pronoundb.org",
+            "name": "Refactor code",
             "status": "pending"
         },
         {
-            "name": "Rewrite README",
+            "name": "Integrate pronoundb.org",
             "status": "pending"
         }
     ]
