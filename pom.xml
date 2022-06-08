@@ -19,7 +19,7 @@
     <url>https://github.com/AceKiron/pronounmc</url>
 
     <build>
-        <finalName>pronounmc-${version}</finalName>
+        <finalName>pronounmc-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
