@@ -1,7 +1,7 @@
 name: PronounMC
 version: '${project.version}'
 main: io.github.acekiron.pronounmc.PMCPlugin
-api-version: 1.18
+api-version: 1.19
 authors: [ AceKiron, Purrrpley ]
 description: See someone's pronouns
 website: https://github.com/AceKiron/pronounmc
