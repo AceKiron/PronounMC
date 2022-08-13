@@ -24,7 +24,7 @@ public class ChatHandler implements Listener {
 
         event.setCancelled(true);
 
-        String message = "<" + event.getPlayer() + ">[" + PronounAPI.getPronouns(event.getPlayer().getUniqueId()) + "] " + event.getMessage();
+        String message = "<" + event.getPlayer().getDisplayName() + ">[" + PronounAPI.getPronouns(event.getPlayer().getUniqueId()) + "] " + event.getMessage();
 
         for (Player player : event.getRecipients()) {
             player.sendMessage(message);
