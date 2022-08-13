@@ -1,9 +1,10 @@
-package io.github.acekiron.pronounmc;
+package io.github.acekironcommunity.pronounmc;
 
 import org.bukkit.entity.Player;
+
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
-public class PHExtension extends PlaceholderExpansion {
+public class PronounMCPlaceholder extends PlaceholderExpansion {
 
     @Override
     public String getAuthor() { return "AceKiron"; }
@@ -12,7 +13,7 @@ public class PHExtension extends PlaceholderExpansion {
     public String getIdentifier() { return "pronounmc"; }
 
     @Override
-    public String getVersion() { return "0.8"; }
+    public String getVersion() { return "1.1"; }
 
     @Override
     public boolean canRegister() { return true; }
@@ -24,7 +25,7 @@ public class PHExtension extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, String params) {
         if (player == null) return "";
 
-        return PMCAPI.getPronouns(player.getUniqueId(), true);
+        return PronounAPI.getPronouns(player.getUniqueId(), true);
     }
 
 }

@@ -1,25 +1,28 @@
 name: PronounMC
 version: '${project.version}'
-main: io.github.acekiron.pronounmc.PMCPlugin
+main: io.github.acekironcommunity.pronounmc.MyPlugin
 api-version: 1.19
 authors: [ AceKiron, Purrrpley ]
 description: See someone's pronouns
-website: https://github.com/AceKiron/pronounmc
+website: https://github.com/AceKiron-Community/pronounmc
 
-softdepend: [PlaceholderAPI]
+softdepend: [ PlaceholderAPI ]
 
 commands:
-  addpronouns:
-    description: Add pronouns
-  removepronouns:
-    description: Remove pronouns
+  addpronoun:
+    description: "Add a pronoun to yourself or somebody else"
+    usage: /addpronoun <pronoun> [player]
+    aliases: addpronouns
+    permission: pronounmc.modify
+    permission-message: "PronounMC: Missing the pronounmc.modify permission."
+  removepronoun:
+    description: "Remove a pronoun from yourself or somebody else"
+    usage: /removepronoun <pronoun> [player]
+    aliases: removepronouns
+    permission: pronounmc.modify
+    permission-message: "PronounMC: Missing the pronounmc.modify permission."
   getpronouns:
-    description: Get pronouns
-
-permissions:
-  pronounmc.modify:
-    description: Set your own pronouns
-  pronounmc.modify.other:
-    description: Set someone else's pronouns
-  pronounmc.get:
-    description: Get pronouns
+    description: "Get the list of pronouns of yourself or somebody else"
+    usage: /getpronouns [player]
+    permission: pronounmc.get
+    permission-message: "PronounMC: Missing the pronounmc.get permission."
