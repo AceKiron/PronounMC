@@ -26,6 +26,8 @@ public final class MyPlugin extends JavaPlugin {
 
         if (getConfig().getBoolean("handle-chat")) new ChatHandler(this);
 
+        new PronounAPI(this);
+
         PronounsTabCompleter pronounsTabCompleter = new PronounsTabCompleter();
 
         getCommand("addpronoun").setExecutor(new AddPronounCommand());

@@ -29,7 +29,6 @@ public class PronounsTabCompleter implements TabCompleter {
         List<String> list = PronounAPI.getAllCodes();
 
         if (args.length == 1) {
-            // Don't even ask
             List<String> itemsToRemove = new ArrayList<>();
 
             for (String s : list) {
