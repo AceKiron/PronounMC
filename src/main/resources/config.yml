@@ -7,5 +7,15 @@ available-pronouns:
   - other
   - ask
   - username
+  - ze
+  - xe
+  - ey
+  - ve
+  - ne
 
 handle-chat: true
+
+message-prefix: "PronounMC: "
+
+verbose-logging: false
+log-changes: true

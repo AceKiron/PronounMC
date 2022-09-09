@@ -23,8 +23,9 @@ public class PronounMCPlaceholder extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, String params) {
-        if (player == null) return "";
+        Utils.log("PlaceholderAPI request made", true);
 
+        if (player == null) return "";
         return PronounAPI.getPronouns(player.getUniqueId(), true);
     }
 

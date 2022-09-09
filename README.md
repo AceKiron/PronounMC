@@ -19,6 +19,11 @@ There are a few pronouns supported by default, but can be modified by adding a n
 * **Other**
 * **Ask**
 * **Username**
+* **Ze**
+* **Xe**
+* **Ey**
+* **Ve**
+* **Ne**
 
 ***
 

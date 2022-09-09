@@ -19,8 +19,12 @@ public class PronounAPI {
 
     private static List<String> pronouns;
 
+    private static boolean logChanges;
+
     public PronounAPI(MyPlugin plugin) {
-        System.out.println("Initialized PronounMC API.");
+        Utils.log("Initialized PronounMC API.", true);
+
+        logChanges = plugin.getConfig().getBoolean("log-changes");
 
         pronouns = plugin.getConfig().getStringList("available-pronouns");
 
@@ -28,6 +32,7 @@ public class PronounAPI {
         playerPronounsFile = new File(plugin.getDataFolder(), "pronouns-db.yml");
 
         if (!playerPronounsFile.exists()) {
+            Utils.log("Creating pronouns-db.yml file", false);
             playerPronounsFile.getParentFile().mkdirs();
             plugin.saveResource("pronouns-db.yml", false);
         }
@@ -54,6 +59,7 @@ public class PronounAPI {
         }
 
         List<String> codes = playerPronounsConfig.getStringList("pronouns-" + playerUUID);
+        Utils.log("Fetch pronouns for player with UUID " + playerUUID, true);
 
         cache.put(playerUUID, codes);
         return codes;
@@ -108,6 +114,7 @@ public class PronounAPI {
         // Only add them if they aren't added yet
         if (!pronouns.contains(code)) {
             pronouns.add(code);
+            if (logChanges) Utils.log("Pronoun " + code + " was added to player with UUID " + playerUUID, false);
 
             save(playerUUID, pronouns);
         }
@@ -125,6 +132,7 @@ public class PronounAPI {
         List<String> pronouns = fetchPronouns(playerUUID);
 
         pronouns.remove(code);
+        if (logChanges) Utils.log("Pronoun " + code + " was removed from player with UUID " + playerUUID, false);
 
         save(playerUUID, pronouns);
 

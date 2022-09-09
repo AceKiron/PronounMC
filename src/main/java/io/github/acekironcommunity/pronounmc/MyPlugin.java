@@ -13,14 +13,18 @@ public final class MyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Bukkit.getLogger().info("Starting up");
+        //Bukkit.getLogger().info("Starting up");
+        Utils.log("Starting up", true);
+
+        Utils.SetPlugin(this);
 
         // Initialize the config
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            System.out.println("Hooking into PlaceholderAPI");
+            //System.out.println("Hooking into PlaceholderAPI");
+            Utils.log("Hooking into PlaceholderAPI", false);
             new PronounMCPlaceholder().register();
         }
 
@@ -41,6 +45,7 @@ public final class MyPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.getLogger().info("Shutting down");
+        //Bukkit.getLogger().info("Shutting down");
+        Utils.log("Shutting down", true);
     }
 }

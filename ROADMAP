@@ -18,8 +18,12 @@
         },
         {
             "name": "Add more pronouns to the default list of pronouns",
-            "status": "indev"
+            "status": "beta"
         },
+        {
+            "name": "Improve logging",
+            "status": "beta"
+        }
         {
             "name": "Integrate pronoundb.org",
             "status": "pending",
