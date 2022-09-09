@@ -10,11 +10,20 @@
         },
         {
             "name": "Refactor code",
+            "status": "released"
+        },
+        {
+            "name": "Prevent players from using the wrong pronouns",
             "status": "pending"
         },
         {
+            "name": "Add more pronouns to the default list of pronouns",
+            "status": "indev"
+        },
+        {
             "name": "Integrate pronoundb.org",
-            "status": "pending"
+            "status": "pending",
+            "priority": "low"
         }
     ]
 }
