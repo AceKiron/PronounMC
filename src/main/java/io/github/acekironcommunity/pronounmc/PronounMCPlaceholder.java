@@ -13,7 +13,7 @@ public class PronounMCPlaceholder extends PlaceholderExpansion {
     public String getIdentifier() { return "pronounmc"; }
 
     @Override
-    public String getVersion() { return "1.1"; }
+    public String getVersion() { return "1.2"; }
 
     @Override
     public boolean canRegister() { return true; }
