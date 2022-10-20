@@ -1,45 +1,62 @@
 # PronounMC
 
-![PronounMC](/Resources/Branding/PronounMCLogo.png?raw=true "PronounMC")
-
-PronounMC is a Minecraft plugin designed to make it easier to keep track of pronouns.
+<div align="center">
+    <p>A Minecraft plugin for sharing pronouns</p>
 
 [![Twitter](https://img.shields.io/badge/%40AceKiron--blue.svg?style=social&logo=Twitter)](https://twitter.com/AceKiron)
 [![Discord](https://img.shields.io/badge/AceKiron%20Studio--blue.svg?style=social&logo=Discord)](https://dsc.gg/acekiron-studio)
 
-***
+![Workflow status](https://img.shields.io/github/workflow/status/AceKiron-Community/pronounmc/Build)
+</div>
 
-## Supported pronouns
-There are a few pronouns supported by default, but can be modified by adding a new pronoun to the `config.yml` config file:
-* **He**
-* **She**
-* **They**
-* **It**
-* **Any**
-* **Other**
-* **Ask**
-* **Username**
-* **Ze**
-* **Xe**
-* **Ey**
-* **Ve**
-* **Ne**
+![PronounMC](/Resources/Branding/PronounMCLogo.png?raw=true "PronounMC")
 
 ***
+<br>
+<div id="default-pronouns"></div>
 
-## Permissions
-- **pronounmc.modify**: Set your own pronouns
-- **pronounmc.modify.other**: Set someone else's pronouns
-- **pronounmc.get**: Get pronouns
+## Default supported pronouns
+
+By default, PronounMC supports the following 13 pronouns:
+Pronouns | More pronouns |
+|---|---|
+| He | She |
+| They | It |
+| Any | Other |
+| Ask | Username |
+| Ze | Xe |
+| Ey | Ve |
+| Ne | |
 
 ***
+<br>
+
+## Configuration
+Name | Description | Default value |
+|---|---|---|
+| available-pronouns | A list of the pronouns a player can choose from | [See default supported pronouns](#default-pronouns) |
+| handle-chat | "true" if PronounMC should handle chat, "false" is recommended when another plugin already handles chat | true |
+| message-prefix | What all messages sent by PronounMC start with | "PronounMC: " |
+| verbose-logging | Enabled verbose logging, mainly used for debugging purposes | false |
+| log-changes | Log whenever someone adds or removes a pronoun | true |
+
+***
+<br>
 
 ## Commands
-- **/addpronouns \<pronoun\> [player]**: Add pronouns to your own or someone else.
-- **/removepronouns \<pronoun\> [player]**: Remove pronouns from your own or someone else.
-- **/getpronouns [player]**: Get your own or someone else's pronouns.
+Command + Syntax | Description | Required permission | Optional permissions |
+|---|---|---|---|
+| /addpronouns \<pronoun\> [player] | Add pronouns to yourself or someone else | pronounmc.modify | pronounmc.modify.other |
+| /removepronouns \<pronoun\> [player] | Remove pronouns from yourself or someone else | pronounmc.modify | pronounmc.modify.other |
+| /getpronouns [player] | Get your own or someone else's pronouns | pronounmc.get | pronounmc.get.other |
 
 ***
+<br>
 
-## Integration into other plugins
-PronounMC softdepends on PlaceholderAPI for integration into other plugins.
+## Permissions
+Permission | Description |
+|---|---|
+| pronounmc.modify | Modify your own pronouns |
+| pronounmc.modify.other | Modify someone else's pronouns |
+| pronounmc.get | Get your own pronouns |
+| pronounmc.get.other | Get someone else's pronouns (applies to the command, not chat) |

@@ -23,11 +23,6 @@
         {
             "name": "Improve logging",
             "status": "beta"
-        },
-        {
-            "name": "Integrate pronoundb.org",
-            "status": "pending",
-            "priority": "low"
         }
     ]
 }
