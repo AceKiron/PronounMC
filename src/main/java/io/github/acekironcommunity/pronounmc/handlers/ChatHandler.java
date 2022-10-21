@@ -29,6 +29,8 @@ public class ChatHandler implements Listener {
         for (Player player : event.getRecipients()) {
             player.sendMessage(message);
         }
+
+        System.out.println(message);
     }
 
 }
