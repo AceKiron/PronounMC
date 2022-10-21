@@ -13,15 +13,15 @@ public class GetPronounsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Utils.formatMessage("Only players can run this command.", false));
-            return true;
-        }
-        Player player = (Player) sender;
-
         switch (args.length) {
             case 0:
                 // Get own pronouns
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(Utils.formatMessage("Only players can run this command.", false));
+                    return true;
+                }
+                Player player = (Player) sender;
+                
                 player.sendMessage(Utils.formatMessage(PronounAPI.getPronouns(player.getUniqueId()) + "."));
                 break;
 
