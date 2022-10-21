@@ -27,18 +27,18 @@ public class GetPronounsCommand implements CommandExecutor {
 
             case 1:
                 // Get somebody else's pronouns
-                if (!player.hasPermission("pronounmc.get.other")) {
-                    player.sendMessage(Utils.formatMessage("Missing the pronounmc.get.other permission.", false));
+                if (!sender.hasPermission("pronounmc.get.other")) {
+                    sender.sendMessage(Utils.formatMessage("Missing the pronounmc.get.other permission.", false));
                     return true;
                 }
 
                 Player player2 = Bukkit.getPlayer(args[0]);
                 if (player2 == null) {
-                    player.sendMessage(Utils.formatMessage("Could not find player " + args[0] + ".", false));
+                    sender.sendMessage(Utils.formatMessage("Could not find player " + args[0] + ".", false));
                     return true;
                 }
 
-                player.sendMessage(Utils.formatMessage(PronounAPI.getPronouns(player2.getUniqueId()) + "."));
+                sender.sendMessage(Utils.formatMessage(PronounAPI.getPronouns(player2.getUniqueId()) + "."));
                 break;
 
             default:
