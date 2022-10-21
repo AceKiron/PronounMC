@@ -13,15 +13,15 @@ public class RemovePronounCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Utils.formatMessage("Only players can run this command.", false));
-            return true;
-        }
-        Player player = (Player) sender;
-
         switch (args.length) {
             case 1:
                 // Modify own pronouns
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(Utils.formatMessage("Only players can run this command.", false));
+                    return true;
+                }
+                Player player = (Player) sender;
+
                 if (PronounAPI.removePronouns(player.getUniqueId(), args[0])) {
                     player.sendMessage(Utils.formatMessage("Updated pronouns.", true));
                 } else {
@@ -31,21 +31,21 @@ public class RemovePronounCommand implements CommandExecutor {
 
             case 2:
                 // Modify somebody else's pronouns
-                if (!player.hasPermission("pronounmc.modify.other")) {
-                    player.sendMessage(Utils.formatMessage("Missing the pronounmc.modify.other permission.", false));
+                if (!sender.hasPermission("pronounmc.modify.other")) {
+                    sender.sendMessage(Utils.formatMessage("Missing the pronounmc.modify.other permission.", false));
                     return true;
                 }
 
                 Player player2 = Bukkit.getPlayer(args[1]);
                 if (player2 == null) {
-                    player.sendMessage(Utils.formatMessage("Could not find player " + args[0] + ".", false));
+                    sender.sendMessage(Utils.formatMessage("Could not find player " + args[0] + ".", false));
                     return true;
                 }
 
                 if (PronounAPI.removePronouns(player2.getUniqueId(), args[0])) {
-                    player.sendMessage(Utils.formatMessage("Updated pronouns.", true));
+                    sender.sendMessage(Utils.formatMessage("Updated pronouns.", true));
                 } else {
-                    player.sendMessage(Utils.formatMessage(args[0] + " isn't a valid pronoun code.", false));
+                    sender.sendMessage(Utils.formatMessage(args[0] + " isn't a valid pronoun code.", false));
                 }
                 break;
 
