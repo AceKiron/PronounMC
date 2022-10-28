@@ -39,6 +39,8 @@ Name | Description | Default value |
 | message-prefix | What all messages sent by PronounMC start with | "PronounMC: " |
 | verbose-logging | Enabled verbose logging, mainly used for debugging purposes | false |
 | log-changes | Log whenever someone adds or removes a pronoun | true |
+| enable-third-party-override | Enable override by a 3rd party such as PronounDB, disables /addpronouns and /removepronouns commands | false |
+| third-party-override | A 3rd party to override pronouns with such as PronounDB | "pronoundb" |
 
 ***
 <br>

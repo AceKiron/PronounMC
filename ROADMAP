@@ -13,16 +13,20 @@
             "status": "released"
         },
         {
-            "name": "Prevent players from using the wrong pronouns",
-            "status": "pending"
-        },
-        {
             "name": "Add more pronouns to the default list of pronouns",
-            "status": "beta"
+            "status": "released"
         },
         {
             "name": "Improve logging",
-            "status": "beta"
+            "status": "released"
+        },
+        {
+            "name": "Integrate PronounDB",
+            "status": "released"
+        },
+        {
+            "name": "Prevent players from using the wrong pronouns",
+            "status": "pending"
         }
     ]
 }
