@@ -19,3 +19,6 @@ message-prefix: "PronounMC: "
 
 verbose-logging: false
 log-changes: true
+
+enable-third-party-override: true
+third-party-override: "pronoundb"

@@ -2,7 +2,7 @@ name: PronounMC
 version: '${project.version}'
 main: io.github.acekironcommunity.pronounmc.MyPlugin
 api-version: 1.19
-authors: [ AceKiron, Purrrpley ]
+authors: [ AceKiron, Purrrpley, werken23 ]
 description: See someone's pronouns
 website: https://github.com/AceKiron-Community/pronounmc
 
