@@ -19,3 +19,7 @@ message-prefix: "PronounMC: "
 
 verbose-logging: false
 log-changes: true
+
+# experimental pronoundb settings
+pronoundb-override: false
+pronoundb-debug: false
