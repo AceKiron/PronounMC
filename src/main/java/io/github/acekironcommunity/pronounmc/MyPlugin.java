@@ -32,13 +32,21 @@ public final class MyPlugin extends JavaPlugin {
 
         PronounsTabCompleter pronounsTabCompleter = new PronounsTabCompleter();
 
-        getCommand("addpronoun").setExecutor(new AddPronounCommand());
-        getCommand("addpronoun").setTabCompleter(pronounsTabCompleter);
+        // only register commands if needed for default pronoun behavior (potentially for when multiple pronoun modes exist which you can choose between, for example when wanting to only use pronoundb pronouns)
+        if (true) {
+            getCommand("addpronoun").setExecutor(new AddPronounCommand());
+            getCommand("addpronoun").setTabCompleter(pronounsTabCompleter);
 
-        getCommand("removepronoun").setExecutor(new RemovePronounCommand());
-        getCommand("removepronoun").setTabCompleter(pronounsTabCompleter);
+            getCommand("removepronoun").setExecutor(new RemovePronounCommand());
+            getCommand("removepronoun").setTabCompleter(pronounsTabCompleter);
+        }
 
         getCommand("getpronouns").setExecutor(new GetPronounsCommand());
+
+        // only register event listener when using pronoundb mode
+        if (getConfig().getBoolean("pronoundb-override")) {
+            getServer().getPluginManager().registerEvents(new PronounEventListener(), this);
+        }
     }
 
     @Override

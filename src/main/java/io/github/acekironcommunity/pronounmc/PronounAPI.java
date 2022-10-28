@@ -20,11 +20,15 @@ public class PronounAPI {
     private static List<String> pronouns;
 
     private static boolean logChanges;
+    public static boolean pronoundbDebug;
+    public static boolean pronoundbOverride;
 
     public PronounAPI(MyPlugin plugin) {
         Utils.log("Initialized PronounMC API.", true);
 
         logChanges = plugin.getConfig().getBoolean("log-changes");
+        pronoundbDebug = plugin.getConfig().getBoolean("pronoundb-debug");
+        pronoundbOverride = plugin.getConfig().getBoolean("pronoundb-override");
 
         pronouns = plugin.getConfig().getStringList("available-pronouns");
 
@@ -108,6 +112,24 @@ public class PronounAPI {
      */
     public static boolean addPronouns(UUID playerUUID, String code) {
         if (!pronouns.contains(code)) return false;
+
+        List<String> pronouns = fetchPronouns(playerUUID);
+
+        // Only add them if they aren't added yet
+        if (!pronouns.contains(code)) {
+            pronouns.add(code);
+            if (logChanges) Utils.log("Pronoun " + code + " was added to player with UUID " + playerUUID, false);
+
+            save(playerUUID, pronouns);
+        }
+
+        return true;
+    }
+    /*
+    same as above but with ability to bypass checks
+ */
+    public static boolean addPronouns(UUID playerUUID, String code, boolean bypass) {
+        if (!pronouns.contains(code) && !bypass) return false;
 
         List<String> pronouns = fetchPronouns(playerUUID);
 
