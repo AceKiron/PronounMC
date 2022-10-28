@@ -62,3 +62,7 @@ Permission | Description |
 | pronounmc.modify.other | Modify someone else's pronouns |
 | pronounmc.get | Get your own pronouns |
 | pronounmc.get.other | Get someone else's pronouns (applies to the command, not chat) |
+
+## Placeholders
+Placeholder | Description |
+|%pronounmc_pronouns% | Displays player's pronouns |
