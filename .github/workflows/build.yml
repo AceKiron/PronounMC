@@ -1,10 +1,8 @@
 name: Build
 on:
   push:
-    branches:
-      - main
-      - integration_pronoundb
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
