@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
 
+import io.github.acekironcommunity.pronounmc.tpo.PronounDBOverrider;
+
 public class PronounAPI {
 
     private static HashMap<UUID, List<String>> cache = new HashMap<UUID, List<String>>();
@@ -17,20 +19,18 @@ public class PronounAPI {
     private static File playerPronounsFile;
     private static YamlConfiguration playerPronounsConfig;
 
-    private static List<String> pronouns;
-
+    private static List<String> pronounCodes;
+    
     private static boolean logChanges;
-    public static boolean pronoundbDebug;
-    public static boolean pronoundbOverride;
+    private static String pronounOverride;
 
     public PronounAPI(MyPlugin plugin) {
         Utils.log("Initialized PronounMC API.", true);
 
         logChanges = plugin.getConfig().getBoolean("log-changes");
-        pronoundbDebug = plugin.getConfig().getBoolean("pronoundb-debug");
-        pronoundbOverride = plugin.getConfig().getBoolean("pronoundb-override");
+        pronounOverride = Utils.getPronounOverride();
 
-        pronouns = plugin.getConfig().getStringList("available-pronouns");
+        pronounCodes = plugin.getConfig().getStringList("available-pronouns");
 
         // Use a separate file for storing players' pronouns
         playerPronounsFile = new File(plugin.getDataFolder(), "pronouns-db.yml");
@@ -50,7 +50,7 @@ public class PronounAPI {
     }
 
     public static List<String> getAllCodes() {
-        return (List<String>) ((ArrayList<String>) pronouns).clone();
+        return (List<String>) ((ArrayList<String>) pronounCodes).clone();
     }
 
     /*
@@ -62,11 +62,22 @@ public class PronounAPI {
             return cache.get(playerUUID);
         }
 
-        List<String> codes = playerPronounsConfig.getStringList("pronouns-" + playerUUID);
-        Utils.log("Fetch pronouns for player with UUID " + playerUUID, true);
+        if (!Utils.getPronounOverrideEnabled()) {
+            List<String> codes = playerPronounsConfig.getStringList("pronouns-" + playerUUID);
+            Utils.log("Fetch pronouns for player with UUID " + playerUUID, true);
+    
+            cache.put(playerUUID, codes);
+            return codes;
+        } else {
+            switch (pronounOverride) {
+                case "pronoundb":
+                    return PronounDBOverrider.fetch(playerUUID);
 
-        cache.put(playerUUID, codes);
-        return codes;
+                default:
+                    Utils.log(pronounOverride + " is not a supported third party overrider.", false);
+                    return null;
+            }
+        }
     }
 
     /*
@@ -111,25 +122,7 @@ public class PronounAPI {
         Returns true if pronoun code is valid, otherwise returns false.
      */
     public static boolean addPronouns(UUID playerUUID, String code) {
-        if (!pronouns.contains(code)) return false;
-
-        List<String> pronouns = fetchPronouns(playerUUID);
-
-        // Only add them if they aren't added yet
-        if (!pronouns.contains(code)) {
-            pronouns.add(code);
-            if (logChanges) Utils.log("Pronoun " + code + " was added to player with UUID " + playerUUID, false);
-
-            save(playerUUID, pronouns);
-        }
-
-        return true;
-    }
-    /*
-    same as above but with ability to bypass checks
- */
-    public static boolean addPronouns(UUID playerUUID, String code, boolean bypass) {
-        if (!pronouns.contains(code) && !bypass) return false;
+        if (!pronounCodes.contains(code)) return false;
 
         List<String> pronouns = fetchPronouns(playerUUID);
 
@@ -149,7 +142,7 @@ public class PronounAPI {
         Returns true if pronoun code is valid, otherwise returns false.
      */
     public static boolean removePronouns(UUID playerUUID, String code) {
-        if (!pronouns.contains(code)) return false;
+        if (!pronounCodes.contains(code)) return false;
 
         List<String> pronouns = fetchPronouns(playerUUID);
 
