@@ -62,22 +62,26 @@ public class PronounAPI {
             return cache.get(playerUUID);
         }
 
+        List<String> codes;
+        Utils.log("Fetch pronouns for player with UUID " + playerUUID, true);
+
         if (!Utils.getPronounOverrideEnabled()) {
-            List<String> codes = playerPronounsConfig.getStringList("pronouns-" + playerUUID);
-            Utils.log("Fetch pronouns for player with UUID " + playerUUID, true);
-    
-            cache.put(playerUUID, codes);
-            return codes;
+            codes = playerPronounsConfig.getStringList("pronouns-" + playerUUID);
         } else {
             switch (pronounOverride) {
                 case "pronoundb":
-                    return PronounDBOverrider.fetch(playerUUID);
+                    codes = PronounDBOverrider.fetch(playerUUID);
+                    break;
 
                 default:
                     Utils.log(pronounOverride + " is not a supported third party overrider.", false);
-                    return null;
+                    codes = new ArrayList<String>();
+                    break;
             }
         }
+
+        cache.put(playerUUID, codes);
+        return codes;
     }
 
     /*
