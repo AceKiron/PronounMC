@@ -126,6 +126,8 @@ public class PronounAPI {
         Returns true if pronoun code is valid, otherwise returns false.
      */
     public static boolean addPronouns(UUID playerUUID, String code) {
+        code = code.toLowerCase();
+
         if (!pronounCodes.contains(code)) return false;
 
         List<String> pronouns = fetchPronouns(playerUUID);
@@ -146,6 +148,8 @@ public class PronounAPI {
         Returns true if pronoun code is valid, otherwise returns false.
      */
     public static boolean removePronouns(UUID playerUUID, String code) {
+        code = code.toLowerCase();
+
         if (!pronounCodes.contains(code)) return false;
 
         List<String> pronouns = fetchPronouns(playerUUID);

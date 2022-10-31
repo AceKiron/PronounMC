@@ -3,6 +3,8 @@ package io.github.acekironcommunity.pronounmc.handlers;
 import io.github.acekironcommunity.pronounmc.MyPlugin;
 
 import io.github.acekironcommunity.pronounmc.PronounAPI;
+import io.github.acekironcommunity.pronounmc.Utils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +20,7 @@ public class ChatHandler implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (event.isCancelled()) {
-            Bukkit.getLogger().warning("Another plugin already handled the chat event");
+            Utils.log("Another plugin already handled the chat event", true);
             return;
         }
 
