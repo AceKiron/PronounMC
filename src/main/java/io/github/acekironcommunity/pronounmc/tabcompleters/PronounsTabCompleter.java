@@ -32,7 +32,7 @@ public class PronounsTabCompleter implements TabCompleter {
             List<String> itemsToRemove = new ArrayList<>();
 
             for (String s : list) {
-                if (!s.startsWith(args[0].toLowerCase())) {
+                if (!s.toLowerCase().startsWith(args[0].toLowerCase())) {
                     itemsToRemove.add(s);
                 }
             }
