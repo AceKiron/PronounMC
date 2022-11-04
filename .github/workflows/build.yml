@@ -21,3 +21,25 @@ jobs:
         with:
           name: pronounmc-jar
           path: ./target/pronounmc-*.jar
+
+  test-plugin:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        #spigotmc-version: [1.13.2, 1.14.4, 1.15.2, 1.16.5, 1.17.1, 1.18.1, 1.19.2]
+        spigotmc-version: [1.13.2]
+    
+    steps:
+      - name: Compile Minecraft Spigot
+        uses: SpraxDev/Action-SpigotMC@v4
+        with:
+          versions: ${{ matrix.spigotmc-version }}
+      
+      - name: Enabling EULA
+        run: echo "eula=true" > eula.txt
+        
+      - name: Test
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-artifact
+          path: *
