@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-jar:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,6 +24,7 @@ jobs:
 
   test-plugin:
     runs-on: ubuntu-latest
+    needs: build-jar
     strategy:
       matrix:
         #spigotmc-version: [1.13.2, 1.14.4, 1.15.2, 1.16.5, 1.17.1, 1.18.1, 1.19.2]
@@ -34,13 +35,18 @@ jobs:
         uses: SpraxDev/Action-SpigotMC@v4
         with:
           versions: ${{ matrix.spigotmc-version }}
-          
       
       - name: Copy server from local Maven repository to working directory
         run: cp /home/runner/.m2/repository/org/spigotmc/minecraft-server/${{ matrix.spigotmc-version }}-SNAPSHOT/minecraft-server-${{ matrix.spigotmc-version }}-SNAPSHOT.jar server.jar
       
       - name: Enabling EULA
         run: echo "eula=true" > eula.txt
+      
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: pronounmc-jar
+          path: ./plugins/
 
       - name: Run server
         run: java -jar server.jar
