@@ -36,7 +36,11 @@ jobs:
           versions: ${{ matrix.spigotmc-version }}
           
       
-      - run: ls -aR /home/runner/.m2/repository/org/spigotmc/minecraft-server/1.13.2-SNAPSHOT
+      - name: Copy server from local Maven repository to working directory
+        run: cp /home/runner/.m2/repository/org/spigotmc/minecraft-server/${{ matrix.spigotmc-version }}-SNAPSHOT/minecraft-server-${{ matrix.spigotmc-version }}-SNAPSHOT.jar server.jar
       
-#       - name: Enabling EULA
-#         run: echo "eula=true" > eula.txt
+      - name: Enabling EULA
+        run: echo "eula=true" > eula.txt
+
+      - name: Run server
+        run: java -jar server.jar
