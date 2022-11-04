@@ -34,8 +34,9 @@ jobs:
         uses: SpraxDev/Action-SpigotMC@v4
         with:
           versions: ${{ matrix.spigotmc-version }}
+          
       
-      - run: ls -a /
+      - run: ls -aR /
       
 #       - name: Enabling EULA
 #         run: echo "eula=true" > eula.txt
