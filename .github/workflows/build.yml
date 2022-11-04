@@ -15,3 +15,9 @@ jobs:
         uses: stCarolas/setup-maven@v4.3
         
       - run: mvn clean package
+
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pronounmc-jar
+          path: ./target/pronounmc-*.jar
