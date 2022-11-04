@@ -35,11 +35,7 @@ jobs:
         with:
           versions: ${{ matrix.spigotmc-version }}
       
-      - name: Enabling EULA
-        run: echo "eula=true" > eula.txt
-        
-      - name: Test
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-artifact
-          path: "*"
+      - run: ls -a
+      
+#       - name: Enabling EULA
+#         run: echo "eula=true" > eula.txt
