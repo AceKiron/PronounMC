@@ -35,7 +35,7 @@ jobs:
         with:
           versions: ${{ matrix.spigotmc-version }}
       
-      - run: ls -a
+      - run: ls -a /
       
 #       - name: Enabling EULA
 #         run: echo "eula=true" > eula.txt
