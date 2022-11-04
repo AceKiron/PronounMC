@@ -6,7 +6,7 @@
 
     <groupId>io.github.acekironcommunity</groupId>
     <artifactId>pronounmc</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
     <packaging>jar</packaging>
 
     <name>PronounMC</name>

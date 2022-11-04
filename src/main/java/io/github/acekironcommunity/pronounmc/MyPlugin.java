@@ -14,13 +14,13 @@ public final class MyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Utils.SetPlugin(this);
-
-        Utils.log("Starting up", true);
-
         // Initialize the config
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
+
+        Utils.SetPlugin(this);
+
+        Utils.log("Starting up", true);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Utils.log("Hooking into PlaceholderAPI", false);
