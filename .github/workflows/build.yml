@@ -36,7 +36,7 @@ jobs:
           versions: ${{ matrix.spigotmc-version }}
           
       
-      - run: ls -aR / | grep ${{ matrix.spigotmc-version }}
+      - run: ls -aR /home/runner/.m2/repository/org/spigotmc/minecraft-server/1.13.2-SNAPSHOT
       
 #       - name: Enabling EULA
 #         run: echo "eula=true" > eula.txt
