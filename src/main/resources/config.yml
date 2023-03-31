@@ -1,0 +1,32 @@
+handle-chat: true
+
+pronouns:
+  - subjectPronoun: "he"
+    objectPronoun: "him"
+    possessiveAdjective: "his"
+    possessivePronoun: "his"
+    reflexivePronoun: "himself"
+
+  - subjectPronoun: "it"
+    objectPronoun: "it"
+    possessiveAdjective: "its"
+    possessivePronoun: "its"
+    reflexivePronoun: "itself"
+
+  - subjectPronoun: "one"
+    objectPronoun: "one"
+    possessiveAdjective: "one's"
+    possessivePronoun: "one's"
+    reflexivePronoun: "oneself"
+
+  - subjectPronoun: "she"
+    objectPronoun: "her"
+    possessiveAdjective: "her"
+    possessivePronoun: "hers"
+    reflexivePronoun: "herself"
+
+  - subjectPronoun: "they"
+    objectPronoun: "them"
+    possessiveAdjective: "their"
+    possessivePronoun: "theirs"
+    reflexivePronoun: "themselves"

@@ -1,0 +1,40 @@
+{
+    "features": [
+        {
+            "name": "Rewrite README",
+            "status": "released"
+        },
+        {
+            "name": "Update to 1.19",
+            "status": "released"
+        },
+        {
+            "name": "Refactor code",
+            "status": "released"
+        },
+        {
+            "name": "Add more pronouns to the default list of pronouns",
+            "status": "released"
+        },
+        {
+            "name": "Improve logging",
+            "status": "released"
+        },
+        {
+            "name": "Integrate PronounDB",
+            "status": "released"
+        },
+        {
+            "name": "Add more API functionality",
+            "status": "indev"
+        },
+        {
+            "name": "Add more support for other chat plugins",
+            "status": "indev"
+        },
+        {
+            "name": "Prevent players from using the wrong pronouns",
+            "status": "pending"
+        }
+    ]
+}
