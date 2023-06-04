@@ -1,9 +1,11 @@
 package dev.mxace.pronounmc;
 
-import dev.mxace.pronounmc.api.Pronoun;
 import dev.mxace.pronounmc.api.PronounAPI;
-
+import dev.mxace.pronounmc.api.PronounsDatabase;
+import dev.mxace.pronounmc.api.PronounsSetApprovementStatus;
+import dev.mxace.pronounmc.api.pronounssets.PronounsSet;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,36 +19,62 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 import java.util.List;
 
-public class PronounsGui implements Listener {
+public class PronounsGUI implements Listener {
+    private Inventory m_Inventory;
+    private Player m_Affected;
+    private List<PronounsSet> m_AvailablePronounsSets;
 
-    private static List<Pronoun> availablePronouns;
+    public PronounsGUI(Player affected) {
+        m_Affected = affected;
+        m_Inventory = Bukkit.createInventory(null, 9 * 4, affected.getDisplayName() + "'s pronouns");
+        m_AvailablePronounsSets = PronounAPI.instance.getRegisteredPronouns();
 
-    private Inventory inv;
-    private Player affected;
+        Bukkit.getPluginManager().registerEvents(this, PronounMC.instance);
 
-    public PronounsGui(Player affected) {
-        inv = Bukkit.createInventory(null, 9 * 1, "PronounMC: " + affected.getDisplayName());
-
-        this.affected = affected;
-
-        availablePronouns = PronounAPI.GetRegisteredPronounsAsList();
-
-        Bukkit.getPluginManager().registerEvents(this, PronounMC.GetInstance());
-
-        InitializeItems();
+        initItems();
     }
 
-    private void InitializeItems() {
-        List<Pronoun> playerPronouns = PronounAPI.GetDatabase().Get(affected.getUniqueId());
-
-        for (int i = 0; i < availablePronouns.size(); i++) {
-            Pronoun pronoun = availablePronouns.get(i);
+    private void initItems() {
+        for (int i = 0; i < m_AvailablePronounsSets.size(); i++) {
+            PronounsSet pronounsSet = m_AvailablePronounsSets.get(i);
             Material material;
 
-            if (playerPronouns.contains(pronoun)) material = Material.EMERALD;
-            else material = Material.REDSTONE;
+            PronounsSetApprovementStatus approvementStatus = PronounsDatabase.instance.getApprovementStatus(m_Affected, pronounsSet);
 
-            inv.setItem(i, createGuiItem(material, Utils.CapitalizeString(pronoun.GetShortName()), Utils.CapitalizeString(pronoun.GetFullName())));
+            switch (approvementStatus) {
+                case ASK:
+                    material = Material.GRAY_CONCRETE;
+                    break;
+                case YES:
+                    material = Material.GREEN_CONCRETE;
+                    break;
+                case JOKINGLY:
+                    material = Material.ORANGE_CONCRETE;
+                    break;
+                case ONLY_IF_WE_ARE_CLOSE:
+                    material = Material.PINK_CONCRETE;
+                    break;
+                case OKAY:
+                    material = Material.LIGHT_GRAY_CONCRETE;
+                    break;
+                case NOPE:
+                    material = Material.RED_CONCRETE;
+                    break;
+
+                default:
+                    material = Material.BEDROCK;
+                    break;
+            }
+
+            m_Inventory.setItem(
+                i,
+                createGuiItem(
+                    material,
+                    Utils.instance.capitalizeString(pronounsSet.getShortName()),
+                    Utils.instance.capitalizeString(PronounAPI.instance.approvementStatusToString(approvementStatus)),
+                    Utils.instance.capitalizeString(pronounsSet.getFullName())
+                )
+            );
         }
     }
 
@@ -56,37 +84,39 @@ public class PronounsGui implements Listener {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
         meta.setLore(Arrays.asList(lore));
+
         item.setItemMeta(meta);
 
         return item;
     }
 
-    public void Open(Player player) {
-        player.openInventory(inv);
+    public void open(Player player) {
+        player.openInventory(m_Inventory);
     }
 
-    // Check for clicks on items
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {
-        if (!e.getInventory().equals(inv)) return;
+        if (!e.getInventory().equals(m_Inventory)) return;
+        if (e.isCancelled()) return;
         e.setCancelled(true);
 
-        Handle(e.getRawSlot());
+        handle(e.getRawSlot(), e.getClick().isLeftClick());
     }
 
-    // Cancel dragging in our inventory
     @EventHandler
     public void onInventoryClick(final InventoryDragEvent e) {
-        if (e.getInventory().equals(inv)) e.setCancelled(true);
+        if (e.getInventory().equals(m_Inventory)) e.setCancelled(true);
     }
 
-    private void Handle(int rawSlot) {
-        if (rawSlot >= availablePronouns.size()) return; // We're clicking nothing
+    private void handle(int rawSlot, boolean isLeftClick) {
+        if (rawSlot >= m_AvailablePronounsSets.size()) return;
 
-        PronounAPI.Toggle(affected.getUniqueId(), availablePronouns.get(rawSlot));
+        PronounsSet pronounsSet = m_AvailablePronounsSets.get(rawSlot);
 
-        inv.clear();
-        InitializeItems();
+        int newStatus = (PronounsDatabase.instance.getApprovementStatus(m_Affected, pronounsSet).ordinal() + (isLeftClick ? 1 : -1)) % PronounsSetApprovementStatus.values().length;
+        PronounsDatabase.instance.setApprovementStatus(m_Affected, pronounsSet, PronounsSetApprovementStatus.values()[newStatus]);
+
+        m_Inventory.clear();
+        initItems();
     }
-
 }

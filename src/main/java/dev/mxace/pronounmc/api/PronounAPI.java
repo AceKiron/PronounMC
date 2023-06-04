@@ -1,58 +1,59 @@
 package dev.mxace.pronounmc.api;
 
-import dev.mxace.pronounmc.Utils;
+import dev.mxace.pronounmc.api.pronounssets.PronounsSet;
 
-import org.apache.commons.lang.StringUtils;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PronounAPI {
+    public final static PronounAPI instance = new PronounAPI();
+    private PronounAPI() {
 
-    private static Map<String, Pronoun> registeredPronouns;
-
-    public static List<Pronoun> GetRegisteredPronounsAsList() { return new ArrayList<Pronoun>(registeredPronouns.values()); }
-
-    public static Pronoun GetPronounFromIdentifier(String identifier) { return registeredPronouns.get(identifier); }
-
-    private static PronounsDatabase database;
-    public static PronounsDatabase GetDatabase() { return database; }
-
-    public static void Initialize() {
-        database = new PronounsDatabase();
-
-        registeredPronouns = new HashMap<>();
     }
 
-    public static void Save() {
-        database.Save();
+    private List<PronounsEventListener> m_Listeners = new ArrayList<PronounsEventListener>();
+    public List<PronounsEventListener> getListeners() { return m_Listeners; }
+
+    private List<PronounsSet> m_RegisteredPronouns = new ArrayList<PronounsSet>();
+    public List<PronounsSet> getRegisteredPronouns() {
+        return m_RegisteredPronouns;
     }
 
-    public static void Register(Pronoun pronoun) { registeredPronouns.put(pronoun.GetFullName(), pronoun); }
-    public static void Unregister(Pronoun pronoun) { registeredPronouns.remove(pronoun.GetFullName()); }
-
-    public static void Add(UUID playerUuid, Pronoun pronoun) {
-        List<Pronoun> pronouns = database.Get(playerUuid);
-        if (!pronouns.contains(pronoun)) pronouns.add(pronoun);
-        database.Set(playerUuid, pronouns);
+    public void addListener(PronounsEventListener listener) {
+        m_Listeners.add(listener);
     }
 
-    public static void Remove(UUID playerUuid, Pronoun pronoun) {
-        List<Pronoun> pronouns = database.Get(playerUuid);
-        if (pronouns.contains(pronoun)) pronouns.remove(pronoun);
-        database.Set(playerUuid, pronouns);
+    public void registerPronounsSet(PronounsSet pronounsSet) {
+        assert !m_RegisteredPronouns.contains(pronounsSet);
+        m_RegisteredPronouns.add(pronounsSet);
+
+        for (PronounsEventListener listener : m_Listeners) listener.onPronounsSetRegistered(pronounsSet);
     }
 
-    public static void Toggle(UUID playerUuid, Pronoun pronoun) {
-        List<Pronoun> pronouns = database.Get(playerUuid);
-        if (!pronouns.contains(pronoun)) pronouns.add(pronoun);
-        else pronouns.remove(pronoun);
-        database.Set(playerUuid, pronouns);
+    public void unregisterPronounsSet(PronounsSet pronounsSet) {
+        assert m_RegisteredPronouns.contains(pronounsSet);
+        m_RegisteredPronouns.remove(pronounsSet);
+
+        for (PronounsEventListener listener : m_Listeners) listener.onPronounsSetUnregistered(pronounsSet);
     }
 
-    public static String AsString(List<Pronoun> pronouns) {
-        if (pronouns.size() == 0) return "Unspecified";
-        else if (pronouns.size() == 1) return Utils.CapitalizeString(pronouns.get(0).GetShortName());
-        else return Utils.CapitalizeString(StringUtils.join(pronouns.stream().map(pronoun -> pronoun.GetSubjectPronoun()).toArray(), "/"));
-    }
+    public String approvementStatusToString(PronounsSetApprovementStatus approvementStatus) {
+        switch (approvementStatus) {
+            case ASK:
+                return "Ask";
+            case YES:
+                return "Yes";
+            case JOKINGLY:
+                return "Jokingly";
+            case ONLY_IF_WE_ARE_CLOSE:
+                return "Only if we are close";
+            case OKAY:
+                return "Okay";
+            case NOPE:
+                return "Nope";
 
+            default:
+                return "Unknown";
+        }
+    }
 }

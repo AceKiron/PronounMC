@@ -1,15 +1,13 @@
 name: PronounMC
 version: '${project.version}'
-description: See someone's pronouns
-website: https://github.com/AceKiron/PronounMC
-
 main: dev.mxace.pronounmc.PronounMC
 api-version: 1.13
-prefix: PronounMC
-
-softdepend: [ PlaceholderAPI ]
 
 commands:
   pronounmc:
-    description: "Modify your own or somebody else's pronouns."
-    usage: /pronounmc [player]
+    description: "Opens a GUI which lets you change your pronouns."
+    usage: "/pronounmc"
+
+  viewpronouns:
+    description: "Lists a player's pronouns to the sender."
+    usage: "/viewpronouns [player]" # If no player is specified, default to the sender.
