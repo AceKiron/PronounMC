@@ -6,7 +6,7 @@ api-version: 1.13
 commands:
   pronounmc:
     description: "Opens a GUI which lets you change your pronouns."
-    usage: "/pronounmc"
+    usage: "/pronounmc [player]" # If no player is specified, default to the sender.
 
   viewpronouns:
     description: "Lists a player's pronouns to the sender."
