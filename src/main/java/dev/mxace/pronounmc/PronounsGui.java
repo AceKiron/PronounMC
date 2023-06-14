@@ -109,7 +109,7 @@ public class PronounsGUI implements Listener {
     }
 
     private void handle(int rawSlot, boolean isLeftClick) {
-        if (rawSlot >= m_AvailablePronounsSets.size()) return;
+        if (rawSlot < 0 || rawSlot >= m_AvailablePronounsSets.size()) return;
 
         PronounsSet pronounsSet = m_AvailablePronounsSets.get(rawSlot);
 

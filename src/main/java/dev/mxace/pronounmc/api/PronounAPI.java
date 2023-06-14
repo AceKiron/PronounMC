@@ -1,5 +1,6 @@
 package dev.mxace.pronounmc.api;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 
 import dev.mxace.pronounmc.PronounMC;
@@ -26,9 +27,11 @@ public class PronounAPI {
         m_Listeners.add(listener);
     }
 
-    public void loadPronounsSetsInPackage(String packageName) throws ClassNotFoundException, IOException {
-        ClassPath path = ClassPath.from(PronounMC.instance.classLoader);
-        for (ClassPath.ClassInfo info : path.getTopLevelClasses(packageName)) Class.forName(info.getName(), true, PronounMC.instance.classLoader);
+    public void loadPronounsSetsInPackage(ClassLoader classLoader, String packageName) throws ClassNotFoundException, IOException {
+        ClassPath path = ClassPath.from(classLoader);
+        ImmutableSet<ClassPath.ClassInfo> topLevelClasses = path.getTopLevelClasses(packageName);
+        for (ClassPath.ClassInfo classInfo : topLevelClasses) Class.forName(classInfo.getName(), true, classLoader);
+        System.out.println("Loaded " + topLevelClasses.size() + " pronouns set(s).");
     }
 
     public void registerPronounsSet(PronounsSet pronounsSet) {
