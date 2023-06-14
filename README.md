@@ -1,6 +1,6 @@
 # PronounMC
 ### A Minecraft plugin for sharing pronouns.
-PronounMC originally meant as a pride month project for 2022, started development on January 21st 2022 and got its first release on April 19th 2022.
+PronounMC, originally meant as a pride month project for 2022, started development on January 21st 2022 and got its first release on April 19th 2022.
 But development didn't stop there, several updates and even complete rewrites have been made since. 
 
 ## Commands
