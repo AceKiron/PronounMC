@@ -1,5 +1,7 @@
 package dev.mxace.pronounmc.api.pronounssets;
 
+import dev.mxace.pronounmc.api.PronounsSet;
+
 public class TheyThemPronounsSet extends PronounsSet {
     public final static TheyThemPronounsSet instance = new TheyThemPronounsSet();
 

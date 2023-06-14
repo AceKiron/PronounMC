@@ -1,5 +1,7 @@
 package dev.mxace.pronounmc.api.pronounssets;
 
+import dev.mxace.pronounmc.api.PronounsSet;
+
 public class OneOnesPronounsSet extends PronounsSet {
     public final static OneOnesPronounsSet instance = new OneOnesPronounsSet();
 

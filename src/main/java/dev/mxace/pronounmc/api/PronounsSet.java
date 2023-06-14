@@ -1,6 +1,4 @@
-package dev.mxace.pronounmc.api.pronounssets;
-
-import dev.mxace.pronounmc.api.PronounAPI;
+package dev.mxace.pronounmc.api;
 
 public abstract class PronounsSet {
     public abstract String getSubjectPronoun();

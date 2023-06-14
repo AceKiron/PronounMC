@@ -1,7 +1,6 @@
 package dev.mxace.pronounmc.api;
 
 import dev.mxace.pronounmc.PronounMC;
-import dev.mxace.pronounmc.api.pronounssets.PronounsSet;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;

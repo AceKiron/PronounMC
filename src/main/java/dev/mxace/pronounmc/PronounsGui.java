@@ -3,9 +3,9 @@ package dev.mxace.pronounmc;
 import dev.mxace.pronounmc.api.PronounAPI;
 import dev.mxace.pronounmc.api.PronounsDatabase;
 import dev.mxace.pronounmc.api.PronounsSetApprovementStatus;
-import dev.mxace.pronounmc.api.pronounssets.PronounsSet;
+import dev.mxace.pronounmc.api.PronounsSet;
+
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

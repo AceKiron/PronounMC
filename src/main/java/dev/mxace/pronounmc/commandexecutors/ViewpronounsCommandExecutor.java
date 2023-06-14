@@ -3,7 +3,7 @@ package dev.mxace.pronounmc.commandexecutors;
 import dev.mxace.pronounmc.Utils;
 import dev.mxace.pronounmc.api.PronounAPI;
 import dev.mxace.pronounmc.api.PronounsDatabase;
-import dev.mxace.pronounmc.api.pronounssets.PronounsSet;
+import dev.mxace.pronounmc.api.PronounsSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,6 +1,5 @@
 package dev.mxace.pronounmc.api;
 
-import dev.mxace.pronounmc.api.pronounssets.PronounsSet;
 import org.bukkit.entity.Player;
 
 public interface PronounsEventListener {

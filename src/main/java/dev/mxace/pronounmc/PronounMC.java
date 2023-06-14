@@ -1,7 +1,6 @@
 package dev.mxace.pronounmc;
 
-import com.google.common.reflect.ClassPath;
-
+import dev.mxace.pronounmc.api.PronounAPI;
 import dev.mxace.pronounmc.api.PronounsDatabase;
 import dev.mxace.pronounmc.commandexecutors.PronounmcCommandExecutor;
 import dev.mxace.pronounmc.commandexecutors.ViewpronounsCommandExecutor;
@@ -13,16 +12,17 @@ import java.io.IOException;
 public final class PronounMC extends JavaPlugin {
     public static PronounMC instance;
 
+    public ClassLoader classLoader;
+
     @Override
     public void onEnable() {
         instance = this;
 
+        classLoader = getClassLoader();
+
         // Load all pronouns
         try {
-            ClassPath path = ClassPath.from(getClassLoader());
-            for (ClassPath.ClassInfo info : path.getTopLevelClasses("dev.mxace.pronounmc.api.pronounssets")) {
-                Class.forName(info.getName(), true, getClassLoader());
-            }
+            PronounAPI.instance.loadPronounsSetsInPackage("dev.mxace.pronounmc.api.pronounssets");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

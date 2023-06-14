@@ -1,7 +1,10 @@
 package dev.mxace.pronounmc.api;
 
-import dev.mxace.pronounmc.api.pronounssets.PronounsSet;
+import com.google.common.reflect.ClassPath;
 
+import dev.mxace.pronounmc.PronounMC;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,11 @@ public class PronounAPI {
 
     public void addListener(PronounsEventListener listener) {
         m_Listeners.add(listener);
+    }
+
+    public void loadPronounsSetsInPackage(String packageName) throws ClassNotFoundException, IOException {
+        ClassPath path = ClassPath.from(PronounMC.instance.classLoader);
+        for (ClassPath.ClassInfo info : path.getTopLevelClasses(packageName)) Class.forName(info.getName(), true, PronounMC.instance.classLoader);
     }
 
     public void registerPronounsSet(PronounsSet pronounsSet) {
