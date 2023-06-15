@@ -16,4 +16,4 @@ But development didn't stop there, several updates and even complete rewrites ha
 ## Contact
 Discord server invite code: `trkeYgm4ds`
 
-Main developer's Discord tag: `_Mx_Ace#5467`
+Main developer's Discord username: `_mx_ace`
