@@ -20,4 +20,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pronounmc-jar
-          path: ./target/pronounmc-*.jar
+          path: ./target/PronounMC-*.jar
