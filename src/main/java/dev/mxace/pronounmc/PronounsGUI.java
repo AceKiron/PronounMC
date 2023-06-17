@@ -6,6 +6,7 @@ import dev.mxace.pronounmc.api.PronounsSetApprovementStatus;
 import dev.mxace.pronounmc.api.PronounsSet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,11 +24,13 @@ public class PronounsGUI implements Listener {
     private Inventory m_Inventory;
     private Player m_Affected;
     private List<PronounsSet> m_AvailablePronounsSets;
+    private PronounsSetApprovementStatus[] m_AvailableApprovementStatuses;
 
     public PronounsGUI(Player affected) {
         m_Affected = affected;
         m_Inventory = Bukkit.createInventory(null, 9 * 4, affected.getDisplayName() + "'s pronouns");
         m_AvailablePronounsSets = PronounAPI.instance.getRegisteredPronouns();
+        m_AvailableApprovementStatuses = PronounsSetApprovementStatus.values();
 
         Bukkit.getPluginManager().registerEvents(this, PronounMC.instance);
 
@@ -71,8 +74,10 @@ public class PronounsGUI implements Listener {
                 createGuiItem(
                     material,
                     Utils.instance.capitalizeString(pronounsSet.getShortName()),
-                    Utils.instance.capitalizeString(PronounAPI.instance.approvementStatusToString(approvementStatus)),
-                    Utils.instance.capitalizeString(pronounsSet.getFullName())
+                    ChatColor.AQUA + "Full set: " + ChatColor.BLUE + Utils.instance.capitalizeString(pronounsSet.getFullName()),
+                    ChatColor.AQUA + "Current status: " + ChatColor.BLUE + Utils.instance.capitalizeString(PronounAPI.instance.approvementStatusToString(approvementStatus)),
+                    ChatColor.AQUA + "- Left click to change to: " + ChatColor.BLUE + Utils.instance.capitalizeString(PronounAPI.instance.approvementStatusToString(getNewStatus(pronounsSet, true))),
+                    ChatColor.AQUA + "- Right click to change to: " + ChatColor.BLUE + Utils.instance.capitalizeString(PronounAPI.instance.approvementStatusToString(getNewStatus(pronounsSet, false)))
                 )
             );
         }
@@ -113,10 +118,25 @@ public class PronounsGUI implements Listener {
 
         PronounsSet pronounsSet = m_AvailablePronounsSets.get(rawSlot);
 
-        int newStatus = (PronounsDatabase.instance.getApprovementStatus(m_Affected, pronounsSet).ordinal() + (isLeftClick ? 1 : -1)) % PronounsSetApprovementStatus.values().length;
-        PronounsDatabase.instance.setApprovementStatus(m_Affected, pronounsSet, PronounsSetApprovementStatus.values()[newStatus]);
+        PronounsDatabase.instance.setApprovementStatus(
+            m_Affected,
+            pronounsSet,
+            getNewStatus(
+                pronounsSet,
+                isLeftClick
+            )
+        );
 
         m_Inventory.clear();
         initItems();
+    }
+
+    private PronounsSetApprovementStatus getNewStatus(PronounsSet pronounsSet, boolean add) {
+        int newStatus = PronounsDatabase.instance.getApprovementStatus(m_Affected, pronounsSet).ordinal() + (add ? 1 : -1);
+
+        if (newStatus < 0) newStatus += m_AvailableApprovementStatuses.length;
+        else if (newStatus >= m_AvailableApprovementStatuses.length) newStatus -= m_AvailableApprovementStatuses.length;
+
+        return PronounsSetApprovementStatus.values()[newStatus];
     }
 }
