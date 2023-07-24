@@ -22,8 +22,8 @@ jobs:
           name: pronounmc-jar
           path: ./target/PronounMC-*.jar
 
-
   test-jar:
+    needs: build-jar
     runs-on: ubuntu-latest
     steps:
       - name: Test
