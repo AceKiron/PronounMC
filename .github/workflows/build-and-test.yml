@@ -5,16 +5,23 @@ on:
   workflow_dispatch:
 
 jobs:
-#   build-jar:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
+  build-jar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-#       - name: Setup Maven
-#         uses: stCarolas/setup-maven@v4.5
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v4.5
         
-#       - run: mvn package
+      - run: mvn package
+      
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pronounmc-jar
+          path: ./target/PronounMC-*.jar
+
 
   test-jar:
     runs-on: ubuntu-latest
@@ -23,12 +30,4 @@ jobs:
         uses: AceKiron/test-spigot-plugin@main
         with:
           minecraft-version: 1.13.2
-    
-#   upload-jar:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Upload JAR as artifact
-#         uses: actions/upload-artifact@v3
-#         with:
-#           name: pronounmc-jar
-#           path: ./target/PronounMC-*.jar
+          artifact-name: pronounmc-jar
