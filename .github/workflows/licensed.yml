@@ -12,10 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Install licensed
-        run: |
-          curl -Lfs -o licensed.tar.gz https://github.com/github/licensed/releases/download/2.12.2/licensed-2.12.2-linux-x64.tar.gz
-          sudo tar -xzf licensed.tar.gz
-          sudo mv licensed /usr/local/bin/licensed
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
       
-      - run: licensed status
+      - uses: github/setup-licensed@v1
+        with:
+          version: '4.4.0`
+
+      - run: licensed list
