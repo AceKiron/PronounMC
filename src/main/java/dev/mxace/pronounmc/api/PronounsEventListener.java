@@ -1,11 +1,12 @@
 package dev.mxace.pronounmc.api;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Event listener that listens to PronounMC events.
  * @author AceKiron
- * @version 2.2
+ * @version 2.3
  */
 public interface PronounsEventListener {
     /**
@@ -13,14 +14,14 @@ public interface PronounsEventListener {
      * @param pronounsSet The pronouns set which was registered.
      * @see dev.mxace.pronounmc.api.PronounsSet
      */
-    void onPronounsSetRegistered(PronounsSet pronounsSet);
+    void onPronounsSetRegistered(@NotNull PronounsSet pronounsSet);
 
     /**
      * Called whenever a pronouns set is unregistered.
      * @param pronounsSet The pronouns set which was unregistered.
      * @see dev.mxace.pronounmc.api.PronounsSet
      */
-    void onPronounsSetUnregistered(PronounsSet pronounsSet);
+    void onPronounsSetUnregistered(@NotNull PronounsSet pronounsSet);
 
     /**
      * Called whenever a pronouns set approvement status is changed.
@@ -29,5 +30,5 @@ public interface PronounsEventListener {
      * @param oldApprovementStatus The old approvement status.
      * @param newApprovementStatus The new approvement status.
      */
-    void onPronounsSetApprovementStatusChanged(Player player, PronounsSet pronounsSet, PronounsSetApprovementStatus oldApprovementStatus, PronounsSetApprovementStatus newApprovementStatus);
+    void onPronounsSetApprovementStatusChanged(@NotNull Player player, @NotNull PronounsSet pronounsSet, @NotNull PronounsSetApprovementStatus oldApprovementStatus, @NotNull PronounsSetApprovementStatus newApprovementStatus);
 }
