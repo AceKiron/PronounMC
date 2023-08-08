@@ -2,8 +2,32 @@ package dev.mxace.pronounmc.api;
 
 import org.bukkit.entity.Player;
 
+/**
+ * Event listener that listens to PronounMC events.
+ * @author AceKiron
+ * @version 2.2
+ */
 public interface PronounsEventListener {
+    /**
+     * Called whenever a pronouns set is registered.
+     * @param pronounsSet The pronouns set which was registered.
+     * @see dev.mxace.pronounmc.api.PronounsSet
+     */
     void onPronounsSetRegistered(PronounsSet pronounsSet);
+
+    /**
+     * Called whenever a pronouns set is unregistered.
+     * @param pronounsSet The pronouns set which was unregistered.
+     * @see dev.mxace.pronounmc.api.PronounsSet
+     */
     void onPronounsSetUnregistered(PronounsSet pronounsSet);
+
+    /**
+     * Called whenever a pronouns set approvement status is changed.
+     * @param player The player whose pronouns set approvement status changed.
+     * @param pronounsSet The pronouns set of which teh approvement status changed.
+     * @param oldApprovementStatus The old approvement status.
+     * @param newApprovementStatus The new approvement status.
+     */
     void onPronounsSetApprovementStatusChanged(Player player, PronounsSet pronounsSet, PronounsSetApprovementStatus oldApprovementStatus, PronounsSetApprovementStatus newApprovementStatus);
 }

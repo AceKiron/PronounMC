@@ -12,12 +12,37 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * The command executor for the /viewpronouns command.
+ * Lists a player's pronouns to the sender.
+ * @see org.bukkit.command.CommandExecutor
+ * @author AceKiron
+ * @version 2.2
+ */
 public class ViewpronounsCommandExecutor implements CommandExecutor {
+    /**
+     * Singleton instance of /viewpronouns's command executor.
+     * @see org.bukkit.command.CommandExecutor
+     */
     public final static ViewpronounsCommandExecutor instance = new ViewpronounsCommandExecutor();
+
+    /**
+     * Make constructor private.
+     */
     private ViewpronounsCommandExecutor() {
 
     }
 
+    /**
+     * Handles the command.
+     * @param sender Sender of the command.
+     * @param command Command which was executed.
+     * @param label Alias of the command which was used.
+     * @param args Passed command arguments.
+     * @return True if the command was successfully executed, otherwise returns false.
+     * @see org.bukkit.command.CommandSender
+     * @see org.bukkit.command.Command
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
