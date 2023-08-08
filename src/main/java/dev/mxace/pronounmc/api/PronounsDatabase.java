@@ -24,7 +24,7 @@ public class PronounsDatabase {
     static {
         try {
             instance = new PronounsDatabase();
-        } catch (IOException e) {
+        } catch (IllegalStateException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -45,7 +45,7 @@ public class PronounsDatabase {
      * @throws IllegalStateException Gets thrown if the file exists and doesn't exist at the same time.
      */
     @SuppressWarnings("CallToPrintStackTrace")
-    private PronounsDatabase() throws IOException {
+    private PronounsDatabase() throws IOException, IllegalStateException {
         file = new File(PronounMC.instance.getDataFolder(), "database_pronouns.yml");
 
         if (!file.exists()) {
