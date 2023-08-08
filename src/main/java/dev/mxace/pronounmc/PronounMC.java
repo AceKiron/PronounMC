@@ -23,9 +23,9 @@ public final class PronounMC extends JavaPlugin {
     public static PronounMC instance;
 
     /**
-     * Make constructor private.
+     * Spigot plugins require a public constructor.
      */
-    private PronounMC() {
+    public PronounMC() {
 
     }
 
