@@ -1,11 +1,12 @@
 package dev.mxace.pronounmc;
 
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Utilities class.
  * @author AceKiron
- * @version 2.2
+ * @version 2.3
  */
 public class Utils {
     /**
@@ -26,7 +27,7 @@ public class Utils {
      * @param ok Makes the text green if true, otherwise it makes the text red.
      * @return Formatted string.
      */
-    public String formatString(String string, boolean ok) {
+    public String formatString(@NotNull String string, boolean ok) {
         return (ok ? ChatColor.GREEN : ChatColor.RED) + string;
     }
 
@@ -35,7 +36,7 @@ public class Utils {
      * @param string The string to be capitalized.
      * @return The capitalized string.
      */
-    public String capitalizeString(String string) {
+    public String capitalizeString(@NotNull String string) {
         return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
 }

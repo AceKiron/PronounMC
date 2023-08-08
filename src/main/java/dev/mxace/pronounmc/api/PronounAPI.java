@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Main API class.
  * @author AceKiron
- * @version 2.2
+ * @version 2.3
  */
 public class PronounAPI {
     /**
@@ -35,7 +35,7 @@ public class PronounAPI {
      * @see java.util.List
      * @see dev.mxace.pronounmc.api.PronounsEventListener
      */
-    private List<PronounsEventListener> m_Listeners = new ArrayList<PronounsEventListener>();
+    private final List<PronounsEventListener> m_Listeners = new ArrayList<PronounsEventListener>();
 
     /**
      * Return list of event listeners for PronounMC's events.
@@ -50,7 +50,7 @@ public class PronounAPI {
      * @see java.util.List
      * @see dev.mxace.pronounmc.api.PronounsSet
      */
-    private List<PronounsSet> m_RegisteredPronouns = new ArrayList<PronounsSet>();
+    private final List<PronounsSet> m_RegisteredPronouns = new ArrayList<PronounsSet>();
 
     /**
      * Return list of registered pronouns sets.
@@ -67,7 +67,7 @@ public class PronounAPI {
      * @param listener Event listener that listens for PronounMC's events.
      * @see dev.mxace.pronounmc.api.PronounsEventListener
      */
-    public void addListener(PronounsEventListener listener) {
+    public void addListener(@NotNull PronounsEventListener listener) {
         m_Listeners.add(listener);
     }
 

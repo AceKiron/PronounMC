@@ -40,20 +40,18 @@ public class PronounsGUI implements Listener {
      */
     private final Player m_Affected;
 
-    // TODO: 8/7/2023 See if this can become static
     /**
      * A list pronouns sets registered when the constructor gets called.
      * @see java.util.List
      * @see dev.mxace.pronounmc.api.PronounsSet
      */
-    private final List<PronounsSet> m_AvailablePronounsSets;
+    private static final List<PronounsSet> m_AvailablePronounsSets = PronounAPI.instance.getRegisteredPronouns();
 
-    // TODO: 8/7/2023 This can DEFINITELY become static, make sure it becomes static
     /**
      * A list of all possible approvement statuses.
      * @see dev.mxace.pronounmc.api.PronounsSetApprovementStatus
      */
-    private final PronounsSetApprovementStatus[] m_AvailableApprovementStatuses;
+    private static final PronounsSetApprovementStatus[] m_AvailableApprovementStatuses = PronounsSetApprovementStatus.values();
 
     /**
      * Constructor for the GUI framework.
@@ -64,8 +62,6 @@ public class PronounsGUI implements Listener {
     public PronounsGUI(@NotNull Player affected) {
         m_Affected = affected;
         m_Inventory = Bukkit.createInventory(null, 9 * 4, affected.getDisplayName() + "'s pronouns");
-        m_AvailablePronounsSets = PronounAPI.instance.getRegisteredPronouns();
-        m_AvailableApprovementStatuses = PronounsSetApprovementStatus.values();
 
         Bukkit.getPluginManager().registerEvents(this, PronounMC.instance);
 
@@ -130,7 +126,7 @@ public class PronounsGUI implements Listener {
      * @return Item that can be put in the GUI.
      * @see org.bukkit.inventory.ItemStack
      */
-    private ItemStack createGuiItem(Material material, String name, String... lore) {
+    private ItemStack createGuiItem(@NotNull Material material, @NotNull String name, String... lore) {
         ItemStack item = new ItemStack(material, 1);
 
         ItemMeta meta = item.getItemMeta();
@@ -147,7 +143,7 @@ public class PronounsGUI implements Listener {
      * @param player Player who will see the GUI.
      * @see org.bukkit.entity.Player
      */
-    public void open(Player player) {
+    public void open(@NotNull Player player) {
         player.openInventory(m_Inventory);
     }
 
@@ -205,7 +201,7 @@ public class PronounsGUI implements Listener {
      * @param add Increments the status index by 1 if true, otherwise decrement 1.
      * @return New pronouns set approvement status.
      */
-    private PronounsSetApprovementStatus getNewStatus(PronounsSet pronounsSet, boolean add) {
+    private PronounsSetApprovementStatus getNewStatus(@NotNull PronounsSet pronounsSet, boolean add) {
         int newStatus = PronounsDatabase.instance.getApprovementStatus(m_Affected, pronounsSet).ordinal() + (add ? 1 : -1);
 
         if (newStatus < 0) newStatus += m_AvailableApprovementStatuses.length;

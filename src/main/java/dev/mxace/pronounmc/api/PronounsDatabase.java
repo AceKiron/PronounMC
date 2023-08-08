@@ -5,6 +5,7 @@ import dev.mxace.pronounmc.PronounMC;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,36 +13,46 @@ import java.io.IOException;
 /**
  * Main database class.
  * @author AceKiron
- * @version 2.2
+ * @version 2.3
  */
 public class PronounsDatabase {
     /**
      * Singleton instance of the PronounsDatabase class.
      */
-    public final static PronounsDatabase instance = new PronounsDatabase();
+    public final static PronounsDatabase instance;
+
+    static {
+        try {
+            instance = new PronounsDatabase();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * File where the database is stored.
      */
-    private File file;
+    private final File file;
 
     /**
      * Yaml config where the database is stored.
      */
-    private YamlConfiguration config;
+    private final YamlConfiguration config;
 
     /**
      * Make constructor private.
+     * @throws IOException Gets thrown if the file couldn't be created.
+     * @throws IllegalStateException Gets thrown if the file exists and doesn't exist at the same time.
      */
     @SuppressWarnings("CallToPrintStackTrace")
-    private PronounsDatabase() {
+    private PronounsDatabase() throws IOException {
         file = new File(PronounMC.instance.getDataFolder(), "database_pronouns.yml");
 
         if (!file.exists()) {
-            file.getParentFile().mkdirs();
+            if (!file.getParentFile().mkdirs()) throw new IOException("Couldn't create parent directory.");
 
             try {
-                file.createNewFile();
+                if (!file.createNewFile()) throw new IllegalStateException("File both exists and doesn't exist.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -76,7 +87,7 @@ public class PronounsDatabase {
      * @see org.bukkit.entity.Player
      * @see dev.mxace.pronounmc.api.PronounsSet
      */
-    public PronounsSetApprovementStatus getApprovementStatus(Player player, PronounsSet pronounsSet) {
+    public PronounsSetApprovementStatus getApprovementStatus(@NotNull Player player, @NotNull PronounsSet pronounsSet) {
         if (!config.contains(player.getUniqueId().toString())) return PronounsSetApprovementStatus.ASK;
         if (!config.getConfigurationSection(player.getUniqueId().toString()).contains(pronounsSet.getShortName())) return PronounsSetApprovementStatus.ASK;
 
@@ -92,7 +103,7 @@ public class PronounsDatabase {
      * @see dev.mxace.pronounmc.api.PronounsSet
      * @see dev.mxace.pronounmc.api.PronounsSetApprovementStatus
      */
-    public void setApprovementStatus(Player player, PronounsSet pronounsSet, PronounsSetApprovementStatus approvementStatus) {
+    public void setApprovementStatus(@NotNull Player player, @NotNull PronounsSet pronounsSet, @NotNull PronounsSetApprovementStatus approvementStatus) {
         if (!config.contains(player.getUniqueId().toString())) config.createSection(player.getUniqueId().toString());
 
         for (PronounsEventListener listener : PronounAPI.instance.getListeners()) {
