@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Main API class.
  * @author AceKiron
- * @version 2.3
+ * @version 2.4
  */
 public class PronounAPI {
     /**
@@ -84,7 +84,8 @@ public class PronounAPI {
         ClassPath path = ClassPath.from(classLoader);
         ImmutableSet<ClassPath.ClassInfo> topLevelClasses = path.getTopLevelClasses(packageName);
         for (ClassPath.ClassInfo classInfo : topLevelClasses) Class.forName(classInfo.getName(), true, classLoader);
-        System.out.println("Loaded " + topLevelClasses.size() + " pronouns set(s).");
+        //System.out.println("Loaded " + topLevelClasses.size() + " pronouns set(s).");
+        PronounMC.instance.getLogger().info("Loaded " + topLevelClasses.size() + " pronouns set(s).");
     }
 
     /**
