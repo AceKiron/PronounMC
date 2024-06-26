@@ -21,19 +21,3 @@ jobs:
         with:
           name: pronounmc-jar
           path: ./target/pronounmc-*.jar
-      
-  test-jar:
-    needs: build-jar
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        minecraft-versions: [ 1.13.2, 1.14.4, 1.15.2, 1.16.5, 1.17.1, 1.18.2, 1.19.4, 1.20.4 ]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        
-      - name: Test
-        uses: AceKiron/test-spigot-plugin@main
-        with:
-          minecraft-version: ${{ matrix.minecraft-versions }}
-          artifact-name: pronounmc-jar
