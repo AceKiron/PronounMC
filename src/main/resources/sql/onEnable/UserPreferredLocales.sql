@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS UserPreferredLocales (
+    UserUUID CHAR(36) PRIMARY KEY NOT NULL,
+
+    Locale CHAR(2) NOT NULL
+);

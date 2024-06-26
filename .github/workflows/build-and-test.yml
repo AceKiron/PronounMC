@@ -1,11 +1,7 @@
-name: Build
+name: Build and test
 on:
   push:
-    branches:
-      - dev
   pull_request:
-    branches:
-      - dev
   workflow_dispatch:
 
 jobs:
@@ -13,19 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Maven
-        uses: stCarolas/setup-maven@v4.5
+        uses: stCarolas/setup-maven@v5
         
       - run: mvn package
-      
+
       - name: Upload JAR as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pronounmc-jar
-          path: ./target/PronounMC-*.jar
-
+          path: ./target/pronounmc-*.jar
+      
   test-jar:
     needs: build-jar
     runs-on: ubuntu-latest
