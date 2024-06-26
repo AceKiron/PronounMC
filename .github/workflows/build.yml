@@ -12,9 +12,3 @@ jobs:
         uses: actions/checkout@v4
         
       - run: mvn package
-
-      - name: Upload JAR as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pronounmc-jar
-          path: ./target/pronounmc-*.jar
