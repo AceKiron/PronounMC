@@ -1,62 +1,124 @@
 package dev.mxace.pronounmc;
 
-import dev.mxace.pronounmc.api.PronounAPI;
-import dev.mxace.pronounmc.api.PronounsDatabase;
-import dev.mxace.pronounmc.commandexecutors.PronounmcCommandExecutor;
-import dev.mxace.pronounmc.commandexecutors.ViewpronounsCommandExecutor;
+import dev.mxace.pronounmc.commands.MyPronounsCommand;
+import dev.mxace.pronounmc.commands.PronounsInfoCommand;
+import dev.mxace.pronounmc.config.AcceptanceStatusesConfig;
+import dev.mxace.pronounmc.config.PronounsConfig;
+import dev.mxace.pronounmc.config.SimpleConfig;
+import dev.mxace.pronounmc.config.TextsConfig;
+import dev.mxace.pronounmc.handlers.ChatHandler;
+import dev.mxace.pronounmc.handlers.JoinHandler;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
 
-/**
- * Main class for PronounMC.
- * @see org.bukkit.plugin.java.JavaPlugin
- * @author AceKiron
- * @version 2.3
- */
 public final class PronounMC extends JavaPlugin {
-    /**
-     * Singleton instance of the PronounMC plugin.
-     * @see org.bukkit.plugin.java.JavaPlugin
-     */
-    public static PronounMC instance;
 
-    /**
-     * Spigot plugins require a public constructor.
-     */
-    public PronounMC() {
+    public static PronounMC pluginInstance;
 
+    private PronounMCDatabase database;
+
+    private SimpleConfig config;
+    private PronounsConfig pronounsConfig;
+    private TextsConfig textsConfig;
+    private AcceptanceStatusesConfig acceptanceStatusesConfig;
+
+    private void registerCommand(Class<?> c, String commandName) {
+        PluginCommand pc = getCommand(commandName);
+        if (pc == null) {
+            Bukkit.getLogger().log(Level.SEVERE, "Could not find /" + commandName + " command.");
+            Bukkit.getPluginManager().disablePlugin(this);
+        } else {
+            try {
+                Object commandInstance = c.getDeclaredField("commandInstance").get(null);
+
+                pc.setExecutor((CommandExecutor) commandInstance);
+                pc.setTabCompleter((TabCompleter) commandInstance);
+            } catch (NoSuchFieldException | IllegalAccessException ex) {
+                Bukkit.getLogger().log(Level.SEVERE, ex.getMessage());
+                Bukkit.getPluginManager().disablePlugin(this);
+            }
+        }
     }
 
-    /**
-     * Called on plugin enable.
-     * Replaces the instance singleton, loads the default pronouns sets and sets command executors.
-     * @throws RuntimeException Gets thrown if the pronouns sets couldn't be loaded.
-     * @see dev.mxace.pronounmc.api.pronounssets
-     */
     @Override
     public void onEnable() {
-        instance = this;
+        pluginInstance = this;
 
-        // Load all pronouns
-        try {
-            PronounAPI.instance.loadPronounsSetsInPackage(getClassLoader(), "dev.mxace.pronounmc.api.pronounssets");
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        config = new SimpleConfig();
+        pronounsConfig = new PronounsConfig();
+        textsConfig = new TextsConfig();
+        acceptanceStatusesConfig = new AcceptanceStatusesConfig();
+
+        if (!getDataFolder().exists()) {
+            if (!getDataFolder().mkdirs()) {
+                Bukkit.getLogger().warning("Data folder could not be created.");
+            }
         }
 
-        getCommand("pronounmc").setExecutor(PronounmcCommandExecutor.instance);
-        getCommand("viewpronouns").setExecutor(ViewpronounsCommandExecutor.instance);
+        try {
+            database = new PronounMCDatabase("pronouns.db");
+        } catch (SQLException | IOException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, ex.getMessage());
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+
+        registerCommand(PronounsInfoCommand.class, "pronounsinfo");
+        registerCommand(MyPronounsCommand.class, "mypronouns");
+
+        try {
+            JoinHandler joinHandler = new JoinHandler(pronounsConfig.getAllIdentifiers());
+            getServer().getPluginManager().registerEvents(joinHandler, this);
+
+            for (Player p : getServer().getOnlinePlayers()) {
+                try {
+                    joinHandler.registerDefaultPronounsAcceptanceStatuses(p.getUniqueId());
+                } catch (SQLException ex) {
+                    Bukkit.getLogger().log(Level.SEVERE, ex.getMessage());
+                }
+            }
+        } catch (IOException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, ex.getMessage());
+        }
+
+        getServer().getPluginManager().registerEvents(new ChatHandler(), this);
     }
 
-    /**
-     * Called on plugin disable.
-     * Saves any unsaved changes to the database.
-     * @see dev.mxace.pronounmc.api.PronounsDatabase
-     */
     @Override
     public void onDisable() {
-        PronounsDatabase.instance.save();
+        try {
+            database.closeConnection();
+        } catch (SQLException ex) {
+            Bukkit.getLogger().log(Level.WARNING, ex.getMessage());
+        }
     }
+
+    public PronounMCDatabase getDatabase() {
+        return database;
+    }
+
+    public AcceptanceStatusesConfig getAcceptanceStatusesConfig() {
+        return acceptanceStatusesConfig;
+    }
+
+    public SimpleConfig getSimpleConfig() {
+        return config;
+    }
+
+    public PronounsConfig getPronounsConfig() {
+        return pronounsConfig;
+    }
+
+    public TextsConfig getTextsConfig() {
+        return textsConfig;
+    }
+
 }

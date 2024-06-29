@@ -1,0 +1,17 @@
+name: Build and test
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-jar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.14.0
+          
+      - run: mvn package

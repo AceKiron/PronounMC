@@ -1,13 +1,34 @@
 name: PronounMC
 version: '${project.version}'
 main: dev.mxace.pronounmc.PronounMC
+description: A Minecraft plugin for sharing pronouns.
+authors:
+  - AceKiron
 api-version: 1.13
 
 commands:
-  pronounmc:
-    description: "Opens a GUI which lets you change your pronouns."
-    usage: "/pronounmc [player]" # If no player is specified, default to the sender.
+  pronounsinfo:
+    description: Show information about a set of pronouns.
 
-  viewpronouns:
-    description: "Lists a player's pronouns to the sender."
-    usage: "/viewpronouns [player]" # If no player is specified, default to the sender.
+    usage: /pronounsinfo [pronouns] [locale]
+
+    permission: pronounmc.info
+    permission-message: You don't have permission to run this command.
+
+  mypronouns:
+    description: Show information about your own pronouns or change your own pronouns.
+
+    usage: /mypronouns [pronouns] [acceptance]
+
+    permission: pronounmc.my
+    permission-message: You don't have permission to run this command.
+
+permissions:
+  pronounmc.info:
+    description: Permission required for /pronounsinfo command.
+
+  pronounmc.my:
+    description: Permission required for /mypronouns command.
+
+  pronounmc.pronounsinchat:
+    description: Permission required to have a hover effect with your pronouns in chat.
