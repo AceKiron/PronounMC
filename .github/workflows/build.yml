@@ -11,8 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - uses: stCarolas/setup-maven@v5
-        with:
-          maven-version: 3.8.2
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@1.14.0
           
       - run: mvn package
