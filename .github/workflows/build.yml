@@ -12,6 +12,6 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Setup Maven Action
-        uses: s4u/setup-maven-action@1.14.0
+        uses: s4u/setup-maven-action@v1.14.0
           
       - run: mvn package
